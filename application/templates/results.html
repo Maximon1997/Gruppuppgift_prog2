@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultat - Personal Finance Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Resultat</h1>
+        <p>Här visas aktiedata och valutainformation.</p>
+
+        <!-- Visa tabeller från Pandas -->
+        {% for table in tables %}
+            <div class="table-container">
+                {{ table | safe }}
+            </div>
+        {% endfor %}
+
+        <!-- Visa Plotly-diagram -->
+        <div class="chart-container">
+            {{ chart | safe }}
+        </div>
+
+        <!-- Länk tillbaka till startsidan -->
+        <br>
+        <a hr
