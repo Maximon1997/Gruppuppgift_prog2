@@ -1,9 +1,13 @@
 
 import requests
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()   
 # Sätt dina API-nycklar här (ersätt med egna om du har)
-ALPHA_VANTAGE_KEY = "demo"  # "demo" fungerar för test (begränsad data)
+ALPHA_VANTAGE_KEY = os.getenv("api_nyckel") 
 EXCHANGE_API_URL = "https://api.exchangerate-api.com/v4/latest/"
 
 #  Funktion för att hämta aktiedata från Alpha Vantage
