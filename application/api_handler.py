@@ -87,12 +87,21 @@ def fetch_top_gainers_losers():
         gainers = pd.DataFrame(data.get("top_gainers", []))
         losers = pd.DataFrame(data.get("top_losers", []))
 
-        for df in [gainers, losers]:
-            if not gainers.empty:
-                gainers = gainers[["ticker", "price", "change_percentage"]]
+        if not gainers.empty:
+            gainers = gainers[["ticker", "price", "change_percentage"]]
+            gainers.rename(columns={
+                "ticker": "Aktie",
+                "price": "Pris",
+                "change_percentage": "Förändring %"
+            }, inplace=True)
 
-            if not losers.empty:
-                losers = losers[["ticker", "price", "change_percentage"]]
+        if not losers.empty:
+            losers = losers[["ticker", "price", "change_percentage"]]
+            losers.rename(columns={
+                "ticker": "Aktie",
+                "price": "Pris",
+                "change_percentage": "Förändring %"
+            }, inplace=True)
 
 
         return gainers, losers

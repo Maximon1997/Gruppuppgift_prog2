@@ -32,9 +32,9 @@ def index():
     def make_table(df, color_class):
         if df.empty:
             return "<p>Ingen data att visa just nu.</p>"
-        df["change_percentage"] = df["change_percentage"].apply(
-            lambda x: f"<span class='{color_class}'>{x}</span>"
-        )
+        df["Förändring %"] = df["Förändring %"].apply(
+    lambda x: f"<span class='{color_class}'>{x}</span>"
+)
         return df.head(20).to_html(classes=f"table {color_class}-table", index=False, escape=False)
 
     gainers_table = make_table(gainers_df, "positive")
