@@ -29,6 +29,35 @@
             <!-- Skicka-knapp -->
             <button type="submit">Visa resultat</button>
         </form>
+
+        <div class="stock-section">
+            <h2 class="gainers-title">Top Gainers</h2>
+            {{ gainers_table|safe }}
+        </div>
+
+        <div class="stock-section">
+            <h2 class="losers-title">Top Losers</h2>
+            {{ losers_table|safe }}
+        </div>
+
     </div>
+
+
+    <script>
+    // Markerar automatiskt positiva och negativa värden
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("td").forEach(td => {
+            const text = td.textContent.trim();
+            if (text.endsWith("%")) {
+                const value = parseFloat(text.replace("%", ""));
+                if (!isNaN(value)) {
+                    if (value > 0) td.classList.add("positive");
+                    else if (value < 0) td.classList.add("negative");
+                }
+            }
+        });
+    });
+    </script>
+
 </body>
 </html>

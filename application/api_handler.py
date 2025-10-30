@@ -66,3 +66,36 @@ def fetch_currency_data(base_currency):
     df = pd.DataFrame(list(data.items()), columns=["Currency", "Rate"])
 
     return df
+
+def fetch_top_gainers_losers():
+    """
+    Hämtar de största vinnarna och förlorarna från Alpha Vantage.
+    Returnerar två Pandas DataFrames: (gainers_df, losers_df)
+    """
+    url = "https://www.alphavantage.co/query"
+    params = {
+        "function": "TOP_GAINERS_LOSERS",
+        "apikey": ALPHA_VANTAGE_KEY
+    }
+
+    try:
+        r = requests.get(url, params=params)
+        if r.status_code != 200:
+            return pd.DataFrame(), pd.DataFrame()
+
+        data = r.json()
+        gainers = pd.DataFrame(data.get("top_gainers", []))
+        losers = pd.DataFrame(data.get("top_losers", []))
+
+        for df in [gainers, losers]:
+            if not gainers.empty:
+                gainers = gainers[["ticker", "price", "change_percentage"]]
+
+            if not losers.empty:
+                losers = losers[["ticker", "price", "change_percentage"]]
+
+
+        return gainers, losers
+    except Exception as e:
+        print("Fel vid hämtning av gainers/losers:", e)
+        return pd.DataFrame(), pd.DataFrame()

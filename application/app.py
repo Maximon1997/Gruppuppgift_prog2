@@ -11,7 +11,7 @@
 
 from flask import Flask, render_template, request, make_response
 import json
-from api_handler import fetch_currency_data, fetch_stock_data
+from api_handler import fetch_currency_data, fetch_stock_data, fetch_top_gainers_losers
 from data_processing import process_data, create_plot
 
 app = Flask(__name__)
@@ -19,10 +19,34 @@ app = Flask(__name__)
 # Startsidan (visar sökformuläret)
 @app.route('/')
 def index():
-    # Försök läsa tidigare sökning från cookie
+    """Startsidan visar sökformulär + Top Gainers/Losers."""
+
+    # Minns tidigare sökning
     last_search = request.cookies.get('last_search')
     form_data = json.loads(last_search) if last_search else {}
-    return render_template('index.html', form_data=form_data)
+
+    # Hämta data via api_handler
+    gainers_df, losers_df = fetch_top_gainers_losers()
+
+    # Om vi fick data, gör HTML-tabeller med färg
+    def make_table(df, color_class):
+        if df.empty:
+            return "<p>Ingen data att visa just nu.</p>"
+        df["change_percentage"] = df["change_percentage"].apply(
+            lambda x: f"<span class='{color_class}'>{x}</span>"
+        )
+        return df.head(20).to_html(classes=f"table {color_class}-table", index=False, escape=False)
+
+    gainers_table = make_table(gainers_df, "positive")
+    losers_table = make_table(losers_df, "negative")
+
+    return render_template(
+        "index.html",
+        form_data=form_data,
+        gainers_table=gainers_table,
+        losers_table=losers_table
+    )
+
 
 # Resultatsidan (visar tabeller och diagram)
 @app.route('/results', methods=['POST'])
