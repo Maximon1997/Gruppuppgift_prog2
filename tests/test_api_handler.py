@@ -2,11 +2,11 @@
 import requests
 import pandas as pd
 
-# 🔑 Sätt din Alpha Vantage API-nyckel här (demo för test)
+#  Sätt din Alpha Vantage API-nyckel här (demo för test)
 ALPHA_VANTAGE_KEY = "demo"
 EXCHANGE_API_URL = "https://api.exchangerate-api.com/v4/latest/"
 
-# 📈 Funktion för att hämta aktiedata från Alpha Vantage
+#  Funktion för att hämta aktiedata från Alpha Vantage
 def fetch_stock_data(symbol):
     """
     Hämtar historisk aktiedata från Alpha Vantage.
