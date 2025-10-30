@@ -32,6 +32,11 @@ def fetch_stock_data(symbol):
 
     data = r.json().get("Time Series (Daily)", {})
 
+    # Om inget data kom tillbaka – undviker krasch
+    if not data:
+        return pd.DataFrame()
+
+
     # Konvertera JSON till DataFrame
     df = pd.DataFrame(data).T
     df.columns = ["Open", "High", "Low", "Close", "Volume"]
