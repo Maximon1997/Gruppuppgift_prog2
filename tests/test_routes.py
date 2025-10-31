@@ -1,5 +1,5 @@
 import pytest
-from app import app
+from application.app import app
 
 # Skapa testklient
 @pytest.fixture
