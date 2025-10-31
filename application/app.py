@@ -1,11 +1,15 @@
 
 
-
 from flask import Flask, render_template, request, make_response
 import json
-from api_handler import fetch_currency_data, fetch_stock_data, fetch_top_gainers_losers
-from data_processing import process_data, create_plot
-
+try:
+    # när appen körs som paket (pytest, python -m)
+    from application.api_handler import fetch_currency_data, fetch_stock_data, fetch_top_gainers_losers
+    from application.data_processing import process_data, create_plot
+except ImportError:
+    # när du kör Flask direkt i application/
+    from api_handler import fetch_currency_data, fetch_stock_data, fetch_top_gainers_losers
+    from data_processing import process_data, create_plot
 app = Flask(__name__)
 
 # Startsidan (visar sökformuläret)
