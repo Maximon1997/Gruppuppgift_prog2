@@ -1,5 +1,5 @@
 import pandas as pd
-from data_processing import process_data, create_plot
+from application.data_processing import process_data, create_plot
 
 # Skapa exempeldata för test
 sample_stock = pd.DataFrame({
